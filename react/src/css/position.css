@@ -1,0 +1,7 @@
+.position-box{
+    color: darkcyan;
+    font-size: 50px;
+    border: 2px solid blue;
+    background-image: url(../assets/images/507615.png);
+    background-size: contain;
+}
