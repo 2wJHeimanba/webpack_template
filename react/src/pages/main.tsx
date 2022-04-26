@@ -1,4 +1,5 @@
 import React from "react"
+import "../../.d"
 import Top from "../components/top"
 import "../css/main.css"
 import img from "../assets/images/507615.png"

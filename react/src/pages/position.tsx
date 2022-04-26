@@ -5,7 +5,7 @@ import "../css/position.css"
 export default function Position(){
     return (
         <h2 className="position-box">
-            position pagefdsafdsaf
+            position page
         </h2>
     )
 }
