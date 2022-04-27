@@ -6,8 +6,8 @@ const path = require("path"),
       prefixRE = /^VUE_APP_/,//正则匹配以VUE_APP_开头的变量
       rules = require("./webpack.rules"),
       HtmlWebpackPlugin = require("html-webpack-plugin"),
-      fs = require("fs");
-
+      fs = require("fs"),
+      { VueLoaderPlugin } = require("vue-loader/dist/index");
 
 require("dotenv").config({path:`.env.${envMode}`});
 let env = {};
@@ -18,43 +18,54 @@ for(const key in process.env){
   }
 }
 
-const htmlDir = path.resolve(__dirname,"../src/pages"),
-      dirs = fs.readdirSync(htmlDir);
+const jsDir = path.resolve(__dirname,"../src/js"),
+      dirs = fs.readdirSync(jsDir);//获取js文件夹下文件名称
 
-let entry = {},
-    htmlPlugins = [];
+let entry = {},//入口文件
+    htmlPlugins = [];//html模板
 
 for(let i = 0;i < dirs.length;i++){
   const dir = dirs[i];
-  entry[dir] = htmlDir + "/" + dir + "/index.ts"
-}
+  let _filename = dir.match(/.*(?=\.\w*$)/);
+  if(!_filename) break;
+  entry[_filename[0]] = {
+    import:jsDir + "/" + dir,
+  };
 
+  htmlPlugins.push(
+    new HtmlWebpackPlugin({
+      template:path.resolve(__dirname,"../src/html/" + _filename[0] + ".html"),
+      filename:_filename[0] + ".html",
+      chunks:[_filename[0]],
+      minify:{
+        collapseWhitespace:false,
+        removeComments:true
+      }
+    })
+  );
+}
 
 module.exports = function(prodMode){
   return {
     mode:"development",
-    entry:{
-      index:path.resolve(__dirname,"../src/js/index.js")
-    },
+    entry,
     module:{
       rules:rules(prodMode)
     },
     plugins:[
+      ...htmlPlugins,
       new webpack.DefinePlugin({
-        "process.env":{...env}
+        "process.env":{...env},
+        __VUE_PROD_DEVTOOLS__: false,
+        __VUE_OPTIONS_API__: false,
       }),
-      new HtmlWebpackPlugin({
-        template:path.resolve(__dirname,"../src/html/index.html"),
-        filename:"index.html",
-        minify:{
-          html5:true,
-          collapseWhitespace:true,
-          minifyCSS:true,
-          minifyJS:true,
-          removeComments:true,
-          preserveLineBreaks:false,
-        }
-      })
-    ]
+      new VueLoaderPlugin()
+    ],
+    resolve:{
+      alias:{
+        "@":path.resolve(__dirname,"../src")
+      },
+      extensions:[".vue",".ts",".js"]
+    }
   }
 }

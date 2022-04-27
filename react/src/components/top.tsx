@@ -1,4 +1,4 @@
-import React from "react"
+import React,{ useEffect } from "react"
 import "../css/top.css"
 
 interface IProps{
@@ -8,6 +8,10 @@ interface IProps{
 type IPropsType = keyof IProps;
 
 export default function Top(props:IProps){
+
+    useEffect(()=>{
+        console.log("fjdsklafjdskl")
+    },[])
 
     function contentHandler(props:IPropsType):IPropsType{
         return props

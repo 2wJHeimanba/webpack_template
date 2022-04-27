@@ -4,21 +4,35 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env envMode=dev webpack-dev-server --config ./config/webpack.dev.js --color"
+    "start": "cross-env envMode=dev webpack-dev-server --config ./config/webpack.dev.js --color",
+    "build": "cross-env envMode=prod webpack --config ./config/webpack.prod.js --color",
+    "dll": "webpack --config ./config/webpack.dll.js"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
+    "@vue/compiler-sfc": "^3.2.33",
+    "add-asset-html-webpack-plugin": "^5.0.2",
     "babel-loader": "^8.2.5",
     "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
     "dotenv": "^16.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "postcss-loader": "^6.2.1",
+    "postcss-pxtorem": "^6.0.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.2.9",
+    "typescript": "^4.6.3",
+    "vue-loader": "^17.0.0",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.8.1",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "webpackbar": "^5.0.2"
   },
   "dependencies": {
-    "core-js": "^3.22.2"
+    "core-js": "^3.22.2",
+    "vue": "^3.2.31"
   }
 }
