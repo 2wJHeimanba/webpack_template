@@ -37,6 +37,6 @@
       "src/**/*.tsx",
       "src/**/*.vue",
       "@types"
-    ]
+, "src/js/index.js"    ]
 }
   
