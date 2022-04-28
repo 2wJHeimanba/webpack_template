@@ -3,6 +3,7 @@
     <div>
         <Top />
         <a href="about.html"> to about page </a>
+        <img src="../assets/images/507615.png" alt="">
     </div>
 </template>
 

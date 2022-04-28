@@ -29,7 +29,7 @@ for(let i = 0;i < dirs.length;i++){
   let _filename = dir.match(/.*(?=\.\w*$)/);
   if(!_filename) break;
   entry[_filename[0]] = {
-    import:jsDir + "/" + dir,
+    import:jsDir + "\\" + dir
   };
 
   htmlPlugins.push(
@@ -43,7 +43,7 @@ for(let i = 0;i < dirs.length;i++){
       }
     })
   );
-}
+};
 
 module.exports = function(prodMode){
   return {

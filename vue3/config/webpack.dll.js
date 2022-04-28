@@ -10,15 +10,12 @@ module.exports = {
     output:{
         filename:"[name].dll.js",
         path:path.resolve(__dirname,"dll"),
-        library:"[name]_[hash]"
+        library:"[name]"
     },
     plugins:[
         new webpack.DllPlugin({
-            name:"[name]_[hash]",
+            name:"[name]",
             path:path.resolve(__dirname,"dll/manifest.json")
         })
-    ],
-    externals: {
-        vue: 'vue',
-    }
+    ]
 }

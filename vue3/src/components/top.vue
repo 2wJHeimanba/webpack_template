@@ -9,9 +9,6 @@
 import { ref } from "vue"
 const name = "top component";
 const age = ref<number>(25);
-
-
-
 </script>
 
 <style lang="css" scoped>
