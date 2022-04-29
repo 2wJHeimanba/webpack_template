@@ -4,11 +4,32 @@ const path = require("path"),
       HtmlWebpackPlugin = require("html-webpack-plugin"),
       MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const pagesDir = path.resolve(__dirname,"../src/pages"),
+      dirs = fs.readdirSync(pagesDir);
 
+let entry = {},
+    htmlPlugins = [];
 
+for(let i = 0;i < dirs.length;i++){
+    let _dir = dirs[i]
+    let _filename = _dir.match(/.*(?=\.\w*$)/);
+    if(!_filename) break;
+    entry[_filename[0]] = pagesDir+"\\"+_dir;
 
-
-
+    htmlPlugins.push(
+        new HtmlWebpackPlugin({
+            template:path.resolve(__dirname,"../index.html"),
+            filename:_filename[0]+".html",
+            chunks:[_filename[0]],
+            minify:{
+                collapseWhitespace:false,
+                removeComments:true
+            },
+            title:_filename[0]
+        })
+    )
+}
+console.log(entry,htmlPlugins)
 
 /**
  * 
@@ -18,20 +39,16 @@ const path = require("path"),
 
 module.exports = function(modeStatus=false){
     return {
-        entry:{
-            index:path.resolve(__dirname,"../src/js/index.js")
-        },
-        output:{
-            path:path.resolve(__dirname,"dist"),
-            filename:"js/[name].js"
-        },
+        entry,
+        target:"web",
         module:{
             rules:[
                 {
                     test: /\.(tsx|ts|js)$/,
                     use:"babel-loader",
                     exclude: /node_modules/,
-                },{
+                },
+                {
                     test:/\.css$/i,
                     use:[
                         MiniCssExtractPlugin.loader,
@@ -50,12 +67,9 @@ module.exports = function(modeStatus=false){
             extensions:[".tsx",".ts",".js"]
         },
         plugins:[
-            new HtmlWebpackPlugin({
-                template:path.resolve(__dirname,"../index.html"),
-                filename:"[name].html"
-            }),
+            ...htmlPlugins,
             new MiniCssExtractPlugin({
-                filename:"css/[name]_[contenthash:8].css",
+                filename:"css/[name].css",
                 chunkFilename:"css/[id].css"
             })
         ]
