@@ -10,10 +10,7 @@ function App(){
 
     return (
         <>
-            <Top />
-            <span className="wenjianjia">hello golang about</span>
-            <a href="index.html">go infdsafdde</a>
-            <Button type="primary">Primary Button</Button>
+            <h2 style={{"textAlign":"center","marginTop":434}}>react+typescript+antd</h2>
         </>
     )
 }

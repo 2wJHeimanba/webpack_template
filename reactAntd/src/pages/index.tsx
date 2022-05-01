@@ -1,25 +1,23 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { createRoot } from "react-dom/client"
-import "antd/dist/antd.css"
-import Top from "../components/top"
+import "antd/dist/antd.min.css"
+import "antd/dist/antd.less"
 import { Button } from "antd"
 import "../css/index.css"
 
-
-
 function App(){
+
+    useEffect(()=>{
+        console.log(process.env.NODE_ENV)
+    });
 
     return (
         <>
-            <Top />
-            <span className="wenjianjia">hell golffdsafddsafdang vans</span>
-            <a href="about.html">to abpfdffdsa</a>
-            <Button type="primary">Primary Button</Button>
-            <Button type="primary">Primary Button</Button>
+            <h2>react+typescript+antd+index</h2>
         </>
     )
 }
 
-
+//挂载到页面中去
 const root = createRoot(document.getElementById("app") as Element);
 root.render(<App />);

@@ -1,9 +1,11 @@
 import React,{ ReactNode } from "react";
 
 
-const Top = () => {
+function Top() {
     return (
-        <h2>tofdsfdffdsafdsasaap</h2>
+        <>
+            <span>wenjianjia</span>
+        </>
     )
 }
 

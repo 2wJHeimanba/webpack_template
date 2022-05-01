@@ -4,7 +4,9 @@ const path = require("path"),
       WebpackConfigBase = require("./webpack.base"),
       Webpackbar = require("webpackbar"),
       CssMinimzerWebpackPlugin = require("css-minimizer-webpack-plugin"),
-      TerserPlugin = require("terser-webpack-plugin");
+      TerserPlugin = require("terser-webpack-plugin"),
+      webpack = require("webpack"),
+      AddAssetHtmlPlugin = require("add-asset-html-webpack-plugin");
 
 module.exports = merge(WebpackConfigBase(true),{
     mode:"production",
@@ -14,12 +16,26 @@ module.exports = merge(WebpackConfigBase(true),{
         clean:true
     },
     plugins:[
+        new webpack.DllReferencePlugin({
+            manifest:path.resolve(__dirname,"./dll/manifest.json")
+        }),
+        new AddAssetHtmlPlugin([
+            {
+                filepath:path.resolve(__dirname,"./dll/React.js"),
+                outputPath:"modules",
+                publicPath:"./modules"
+            },{
+                filepath:path.resolve(__dirname,"./dll/ReactDOM.js"),
+                outputPath:"modules",
+                publicPath:"./modules"
+            }
+        ]),
         new Webpackbar()
     ],
     optimization:{
         splitChunks:{
             cacheGroups:{//缓存组，将第三方库独立打包
-                vendor:{
+                defaultVendors:{
                     test:/[\\/]node_modules[\\/]/,
                     name:"vendors",
                     chunks:"all"
@@ -38,7 +54,7 @@ module.exports = merge(WebpackConfigBase(true),{
                     keep_classnames:false
                 }
             }),
-            new CssMinimzerWebpackPlugin()
+            new CssMinimzerWebpackPlugin(),//压缩css
         ]
     }
 })
